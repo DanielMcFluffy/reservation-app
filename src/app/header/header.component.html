@@ -1,0 +1,11 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="'/'">Hotel-App</a>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a *ngIf="!isLogin" class="nav-link" [routerLink]="'/'">Login</a>
+        <a *ngIf="isLogin"  class="nav-link" href="#" (click)="onLogout()">Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>
