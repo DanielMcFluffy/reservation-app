@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnInit, computed } from '@angular/core';
+import { Component, DoCheck} from '@angular/core';
 import { AccountsService } from '../accounts.service';
 
 @Component({
@@ -6,20 +6,16 @@ import { AccountsService } from '../accounts.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent implements OnInit, DoCheck {
+export class HeaderComponent implements DoCheck {
   constructor(
     private accountService: AccountsService,
   ) {}
   isLogin!: boolean;
 
   ngDoCheck(): void {
-    this.isLogin = this.accountService.readAuth();
+    this.isLogin = Boolean(this.accountService.getToken());
   }
 
-  ngOnInit(): void {
-    this.accountService.readAuth();
-    console.log(this.isLogin)
-  }
 
   onLogout() {
     this.accountService.logoutAccount();

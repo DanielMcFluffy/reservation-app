@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Reservation } from '../models/reservation';
 import { ReservationService } from '../reservation/reservation.service';
 import { AccountsService } from '../accounts.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-reservation-list',
@@ -12,11 +13,14 @@ export class ReservationListComponent implements OnInit, OnDestroy {
   
   reservations: Reservation[] = [];
   isLoading: boolean = true; // Track loading state
+  token = this.accountsService.getToken();
   
   constructor(
     private reservationService: ReservationService,
     private accountsService: AccountsService,
-  ){}
+  ){
+
+  }
 
   ngOnInit(): void {
     //returns the observable, then subscribe to it
@@ -26,17 +30,24 @@ export class ReservationListComponent implements OnInit, OnDestroy {
     //   console.log(reservations)
     //   console.log(this.accountsService.readToken())
     // });
-    console.log(this.accountsService.readAuth())
+    // console.log(this.accountsService.readAuth())
     //get token 
-    const token = this.accountsService.readToken();
-    const username = this.accountsService.readEmail();
-    this.reservationService.getUserReservation(token, username)
-      .subscribe(
-        (userReservations: Reservation[]) => {
-          this.reservations = userReservations;
-          this.isLoading = false;
-        }
-      )
+    // const token = localStorage.getItem('accessToken');
+    
+    if(this.token) {
+      const username = jwtDecode<{username: string}>(this.token).username || jwtDecode<{email: string}>(this.token).email;
+      console.log(username);
+        this.reservationService.getUserReservation(this.token, username)
+          .subscribe(
+            (userReservations: Reservation[]) => {
+              this.reservations = userReservations;
+              this.isLoading = false;
+            }
+          )
+    } 
+    // el {
+
+    // }
 
   }
 
@@ -49,13 +60,16 @@ export class ReservationListComponent implements OnInit, OnDestroy {
     this.reservationService.deleteReservation(id).subscribe(() => {
       console.log('Delete request processed!');
       
-    this.reservationService.getUserReservation(this.accountsService.readToken(), this.accountsService.readEmail())
+      if(this.token) {
+      const {username} = jwtDecode<{username:string}>(this.token);
+
+    this.reservationService.getUserReservation(this.token, username)
       .subscribe(
         (userReservations) => {
           this.reservations = userReservations;
         }
       )
-    }) ;
+   } }) ;
     
    
   }

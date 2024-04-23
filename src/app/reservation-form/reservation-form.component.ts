@@ -4,6 +4,7 @@ import { ReservationService } from '../reservation/reservation.service';
 import { Reservation } from '../models/reservation';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AccountsService } from '../accounts.service';
+import { jwtDecode } from 'jwt-decode';
 @Component({
   selector: 'app-reservation-form',
   templateUrl: './reservation-form.component.html',
@@ -16,19 +17,27 @@ export class ReservationFormComponent implements OnInit {
   today!: string;
 
   //access user's email if exists
-    userEmail = this.accountService.readEmail();
+    token = this.accountsService.getToken();
+    userEmail!: string
 
   constructor(
     private formBuilder: FormBuilder,
     private reservationService: ReservationService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private accountService: AccountsService,
+    private accountsService: AccountsService,
     ) {
-      console.log(this.userEmail)
+     
   }
 
   ngOnInit(): void {
+
+    if (this.token) {
+      const username = jwtDecode<{username: string}>(this.token).username || jwtDecode<{email: string}>(this.token).email;
+
+      this.userEmail = username;
+      // console.l
+    }
 
     const currentDate = new Date();
     this.today = currentDate.toISOString().split('T')[0];

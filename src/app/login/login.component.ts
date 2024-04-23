@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import { RegisterComponent } from '../register/register.component';
 import { AccountsService } from '../accounts.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
     public dialog: MatDialog,
     private accountsService: AccountsService,
     private router: Router,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +51,21 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  async handleGoogleSignIn() {
+    try {
+      await this.authService.loginGoogle(); // Wait for sign-in to complete
+      if (this.accountsService.getToken()) { // Check token after sign-in completes
+        this.successMessage.set(true);
+        setTimeout(() => {
+          console.log("Navigating to user list...");
+          this.router.navigate(['/list', 'user']);
+        }, 1000);
+      }
+    } catch (error) {
+      console.error('Google sign-in failed:', error);
+    }
+  }
+
   onLogin() {
     //extract out email/password
     const {email, password} = this.loginForm.value
@@ -58,15 +75,21 @@ export class LoginComponent implements OnInit {
       .subscribe(
         ((authData) => {
           //extract out auth and token 
-          const {auth, token} = authData
-  
+          const {auth, token, refreshToken} = authData
+          
+          //set token in localstorage
+          localStorage.setItem('accessToken', token);
+          localStorage.setItem('refreshToken', refreshToken);
+
           //set the auth/token/email in accountsService
-          this.accountsService.setToken(token);
-          this.accountsService.setAuth(auth);
-          this.accountsService.setUserEmail(email);
-          if (auth) {
+          // this.accountsService.setToken(token);
+          // this.accountsService.setRefreshToken(refreshToken);
+          // this.accountsService.setAuth(auth);
+          // this.accountsService.setUserEmail(email);
+          if (token && refreshToken) {
             this.successMessage.set(true);
             setTimeout(() => {
+              console.log("Navigating to user list...");
               this.router.navigate(['/list', 'user'])
             }, 1000);
           }
@@ -84,8 +107,3 @@ export class LoginComponent implements OnInit {
       )
   }
 }
-
-//tackle logic to get information about the login'ed user
-//extract it out into a url params
-//then implement an endpoint to get data based on a user
-//use that to filter the reservation made by that specific user

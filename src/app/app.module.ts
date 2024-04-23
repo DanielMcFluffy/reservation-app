@@ -12,6 +12,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RegisterComponent } from './register/register.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+
+
+
 
 @NgModule({
   declarations: [
@@ -28,6 +33,8 @@ import { ErrorPageComponent } from './error-page/error-page.component';
     HomeModule,
     HttpClientModule,
     ReactiveFormsModule,
+    provideFirebaseApp(() => initializeApp({"projectId":"hotel-app-a2b0b","appId":"1:282751931092:web:9717fca6f8dbdaeef9a141","storageBucket":"hotel-app-a2b0b.appspot.com","apiKey":"AIzaSyD9m_3nlaRpk5rJh7ARn340ObD77ZhjQQ0","authDomain":"hotel-app-a2b0b.firebaseapp.com","messagingSenderId":"282751931092"})),
+    provideAuth(() => getAuth()),
   ],
   providers: [
     provideAnimationsAsync()
