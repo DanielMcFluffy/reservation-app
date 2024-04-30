@@ -8,16 +8,28 @@ import { ReservationModule } from './reservation/reservation.module';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RegisterComponent } from './register/register.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
+import { LandingComponent } from './landing/landing.component';
+import { SearchBarComponent } from './header/search-bar/search-bar.component';
+import { ProfileControlComponent } from './header/profile-control/profile-control.component';
+import { ListingItemComponent } from './landing/listing-item/listing-item.component';
+import { ListingDetailComponent } from './listing-detail/listing-detail.component';
+import { NgArrayPipesModule } from 'ngx-pipes';
 
+// angular MAT calendar imports
 
-
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CalendarComponent } from './features/calendar/calendar.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import { Location } from '@angular/common';
+import { CheckoutComponent } from './checkout/checkout.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +37,13 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
     LoginComponent,
     RegisterComponent,
     ErrorPageComponent,
+    LandingComponent,
+    SearchBarComponent,
+    ProfileControlComponent,
+    ListingItemComponent,
+    ListingDetailComponent,
+    CalendarComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,12 +52,26 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
     HomeModule,
     HttpClientModule,
     ReactiveFormsModule,
-    provideFirebaseApp(() => initializeApp({"projectId":"hotel-app-a2b0b","appId":"1:282751931092:web:9717fca6f8dbdaeef9a141","storageBucket":"hotel-app-a2b0b.appspot.com","apiKey":"AIzaSyD9m_3nlaRpk5rJh7ARn340ObD77ZhjQQ0","authDomain":"hotel-app-a2b0b.firebaseapp.com","messagingSenderId":"282751931092"})),
+    FormsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatCardModule,
+    NgArrayPipesModule,
+
+    provideFirebaseApp(() =>
+      initializeApp({
+        projectId: 'hotel-app-a2b0b',
+        appId: '1:282751931092:web:9717fca6f8dbdaeef9a141',
+        storageBucket: 'hotel-app-a2b0b.appspot.com',
+        apiKey: 'AIzaSyD9m_3nlaRpk5rJh7ARn340ObD77ZhjQQ0',
+        authDomain: 'hotel-app-a2b0b.firebaseapp.com',
+        messagingSenderId: '282751931092',
+      })
+    ),
     provideAuth(() => getAuth()),
   ],
-  providers: [
-    provideAnimationsAsync()
-  ],
-  bootstrap: [AppComponent]
+  providers: [provideAnimationsAsync()],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
