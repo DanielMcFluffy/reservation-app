@@ -42,14 +42,13 @@ export class ReservationFormComponent implements OnInit {
 
     //form builder is used to group the formControlName associated in the input elements for the FormGroup
     this.reservationForm = this.formBuilder.group({
-      checkindate: ['', Validators.required],
-      checkoutdate: ['', Validators.required],
+      checkindate: [{ value: '', disabled: true }, Validators.required],
+      checkoutdate: [{ value: '', disabled: true }, Validators.required],
       guestname: ['', Validators.required],
       guestemail: [
         { value: this.userEmail || '', disabled: this.userEmail !== null },
         [Validators.required, Validators.email],
       ],
-      roomnumber: ['', Validators.required],
     });
 
     //check the current route url we're on and accessing the params (:id) to assign to id variable

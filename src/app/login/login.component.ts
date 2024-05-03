@@ -55,10 +55,8 @@ export class LoginComponent implements OnInit {
       if (this.accountsService.getToken()) {
         // Check token after sign-in completes
         this.successMessage.set(true);
-        setTimeout(() => {
-          console.log('Navigating to user list...');
-          this.router.navigate(['/list', 'user']);
-        }, 1000);
+        this.dialog.closeAll();
+        console.log('closed');
       }
     } catch (error) {
       console.error('Google sign-in failed:', error);
@@ -67,36 +65,19 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     // //extract out email/password
-    // const {email, password} = this.loginForm.value
+    const { email, password } = this.loginForm.value;
     // //plug them in here
-    // this.accountsService.loginAccount(email, password)
-    //   .subscribe(
-    //     ((authData) => {
-    //       //extract out auth and token
-    //       const {auth, token, refreshToken} = authData
-    //       console.log(authData)
-    //       //set token in localstorage
-    //       localStorage.setItem('accessToken', token);
-    //       localStorage.setItem('refreshToken', refreshToken);
-    //       //set the auth/token/email in accountsService
-    //       // this.accountsService.setToken(token);
-    //       // this.accountsService.setRefreshToken(refreshToken);
-    //       // this.accountsService.setAuth(auth);
-    //       // this.accountsService.setUserEmail(email);
-    //       if (token && refreshToken) {
-    //         this.successMessage.set(true);
-    //         setTimeout(() => {
-    //           console.log("Navigating to user list...");
-    //           this.router.navigate(['/list', 'user'])
-    //         }, 1000);
-    //       }
-    //     }),
-    //     (error) => {
-    //         this.errorMessage.set(true);
-    //         setTimeout(() => {
-    //           this.errorMessage.set(false)
-    //         },2000)
-    //     }
-    //   )
+    this.accountsService.loginAccount(email, password).subscribe((authData) => {
+      // extract out auth and token
+      const { auth, token, refreshToken } = authData;
+      console.log(authData);
+      // set token in localstorage
+      localStorage.setItem('accessToken', token);
+      localStorage.setItem('refreshToken', refreshToken);
+      if (token && refreshToken) {
+        this.successMessage.set(true);
+      }
+      this.dialog.closeAll();
+    });
   }
 }

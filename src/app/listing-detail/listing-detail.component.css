@@ -87,6 +87,10 @@
   justify-content: space-between;
   align-items: center;
 }
+/* price underline in pricing */
+.row > div > div > span {
+  text-decoration: underline;
+}
 
 p {
   text-wrap: nowrap;
@@ -124,6 +128,11 @@ p {
     width: 100%;
     grid-column: 1 / 9;
     grid-row: 4 / 9;
+  }
+
+  /* price underline in pricing */
+  .subtotal > .left {
+    text-decoration: underline;
   }
 
   .horizontal1 {

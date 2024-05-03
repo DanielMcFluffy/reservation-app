@@ -7,6 +7,7 @@ import {
 } from 'firebase/auth';
 import { jwtDecode } from 'jwt-decode';
 import { AccountsService } from './accounts.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,8 @@ import { AccountsService } from './accounts.service';
 export class AuthService {
   constructor(
     private firebaseAuth: Auth,
-    private accountsService: AccountsService
+    private accountsService: AccountsService,
+    private dialog: MatDialog
   ) {}
 
   isTokenExpired(token: string): boolean {
@@ -63,6 +65,7 @@ export class AuthService {
 
             localStorage.setItem('accessToken', token);
             localStorage.setItem('refreshToken', refreshToken);
+            this.dialog.closeAll();
           });
         return result;
       })

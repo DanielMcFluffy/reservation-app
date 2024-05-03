@@ -118,15 +118,17 @@
           </div>
         </div>
       </div>
-
+      <!-- mobile pricing detail section -->
       <div class="detail-price-mobile">
         <div
           class="container detail-price-container-mobile border rounded-4 shadow"
         >
           <div class="row mt-3">
+            @if (listing?.price) {
+
             <p class="d-flex justify-content-between">
               <span style="font-size: 26px; font-weight: 550"
-                >{{ listing?.price }}
+                >RM{{ listing?.price }}
                 <span style="font-size: 1.3rem; font-weight: 400"
                   >{{ " " }} night
                 </span>
@@ -141,68 +143,112 @@
                 </p>
               </button>
             </p>
+            } @else {
+            <p class="text-center">Loading...</p>
+            }
           </div>
           <div class="row"></div>
 
           <hr style="margin-top: 0px" />
 
           <div class="row d-flex justify-content-between subtotal">
-            <div class="w-auto">Price</div>
-            <div class="w-auto">x nights</div>
+            @if ( listing?.price && bookingDaysTracked !== undefined &&
+            bookingDaysTracked>0 ) {
+            <div class="w-auto left">RM{{ listing!.price }}</div>
+            <div class="w-auto">
+              RM{{ listing!.price * bookingDaysTracked }}
+            </div>
+            } @else {
+            <div class="text-center">Loading ...</div>
+            }
           </div>
 
           <div class="row d-flex justify-content-between subtotal">
-            <div class="w-auto">Price</div>
-            <div class="w-auto">x nights</div>
+            <div class="w-auto left">Cleaning Fee</div>
+            <div class="w-auto">RM60</div>
           </div>
 
           <hr />
 
           <div class="row d-flex justify-content-between subtotal">
-            <div class="w-auto">Price</div>
-            <div class="w-auto">x nights</div>
+            @if ( listing?.price && bookingDaysTracked !== undefined &&
+            bookingDaysTracked>0 ) {
+            <div class="fw-bold text-center">
+              Total including taxes RM{{
+                listing!.price * bookingDaysTracked + 60
+              }}
+            </div>
+            } @else {
+            <div class="text-center">Loading...</div>
+            }
           </div>
 
           <div class="row">
-            <button class="mt-3 p2 btn btn-primary">Reserve</button>
+            <button (click)="onAddToCart()" class="mt-3 p2 btn btn-primary">
+              Reserve
+            </button>
           </div>
         </div>
       </div>
-
+      <!-- desktop pricing detail section -->
       <div class="detail-price">
         <div class="container detail-price-container border rounded-4 shadow">
           <div class="row ms-2">
             <div class="row mt-4">
+              @if (listing?.price) {
               <p>
-                <span style="font-size: 26px; font-weight: 550">{{
-                  listing?.price
-                }}</span>
+                <span style="font-size: 26px; font-weight: 550"
+                  >RM{{ listing?.price }}</span
+                >
                 {{ " " }} night
               </p>
+              } @else {
+              <p>Loading...</p>
+              }
             </div>
             <div class="row">
-              <app-calendar></app-calendar>
-              <button class="mt-3 p-2 btn btn-primary">Reserve</button>
+              <app-calendar
+                (sendBookingDaysTracked)="receiveBookingDaysTracked($event)"
+                (sendBookingDates)="receiveBookingDates($event)"
+              ></app-calendar>
+              <button (click)="onAddToCart()" class="mt-3 p-2 btn btn-primary">
+                Reserve
+              </button>
               <p class="text-muted mt-3 text-center">
                 You won't be charged yet
               </p>
             </div>
             <div class="row days-fees mb-2">
-              <div class="col-auto mr-auto">Price x da nights</div>
-              <div class="col-auto">total</div>
+              @if ( listing?.price && bookingDaysTracked !== undefined &&
+              bookingDaysTracked>0 ) {
+              <div class="col-auto mr-auto">
+                <span
+                  >RM{{ listing?.price }} x {{ bookingDaysTracked }} days</span
+                >
+              </div>
+              <div class="col-auto">
+                RM{{ listing!.price * bookingDaysTracked }}
+              </div>
+              } @else {
+              <div class="text-center">Loading...</div>
+              }
             </div>
-            <!-- <div class="row discount-fees mb-2">
-            <div class="col-auto mr-auto">days</div>
-             <div class="col-auto">total</div>
-          </div>  -->
             <div class="row cleaning-fees mb-4">
-              <div class="col-auto mr-auto">Cleaning fee</div>
-              <div class="col-auto">total</div>
+              <div class="col-auto mr-auto"><span>Cleaning fee</span></div>
+              <div class="col-auto">RM60</div>
             </div>
             <hr />
-            <div class="row cleaning-fees mb-4">
-              <div class="col-auto mr-auto">total</div>
-              <div class="col-auto">d</div>
+            <div class="row total-fees mb-4">
+              @if ( listing?.price && bookingDaysTracked !== undefined &&
+              bookingDaysTracked>0 ) {
+              <div class="text-center fw-bold">
+                Total including taxes RM{{
+                  listing!.price * bookingDaysTracked + 60
+                }}
+              </div>
+              } @else {
+              <div class="text-center">Loading...</div>
+              }
             </div>
           </div>
         </div>

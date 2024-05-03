@@ -6,23 +6,36 @@
   <thead>
     <tr>
       <th>Reservation Name</th>
-      <!-- <th>Email</th> -->
-      <th>Room No.</th>
+      <th>Location</th>
+      <th>Email</th>
       <th>Check-In</th>
       <th>Check-Out</th>
     </tr>
   </thead>
   <tbody>
-    <tr  *ngFor="let reservation of reservations">
-      <td>{{reservation.guestname}}</td>
-      <!-- <td>{{reservation.guestemail}}</td> -->
-      <td>{{reservation.roomnumber}} </td>
-      <td>{{reservation.checkindate | date}}</td>
-      <td>{{reservation.checkoutdate | date}}</td>
+    <tr *ngFor="let reservation of reservations">
+      <td>{{ reservation.guestname }}</td>
+      <td>{{ reservation.guestemail }}</td>
+      <td>{{ reservation.checkindate | date }}</td>
+      <td>{{ reservation.checkoutdate | date }}</td>
       <td>
-        <button class="btn btn-danger btn-sm m-2" (click)="deleteReservation(reservation.id)" >Delete</button>
-        <button class="btn btn-secondary btn-sm mx-2" [routerLink]="['/edit', reservation.id]" >Edit</button>
-
+        <button
+          class="btn btn-danger btn-sm m-2"
+          (click)="
+            deleteReservation(reservation.id, {
+              listingId: reservation.listingId,
+              reason: 'text'
+            })
+          "
+        >
+          Delete
+        </button>
+        <button
+          class="btn btn-secondary btn-sm mx-2"
+          [routerLink]="['/edit', reservation.id]"
+        >
+          Edit
+        </button>
       </td>
     </tr>
   </tbody>

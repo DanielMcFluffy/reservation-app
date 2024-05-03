@@ -7,13 +7,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ReservationService {
-  //initialization
-  /////////////////////////local storage method
-  // constructor() {
-  //   let savedReservations = localStorage.getItem("reservations");
-  //   this.reservations = savedReservations ? JSON.parse(savedReservations) : [];
-  // }
-
   private reservations: Reservation[] = [];
   //specify api url
   private apiUrl =
@@ -49,21 +42,17 @@ export class ReservationService {
 
   addReservation(reservation: Reservation): Observable<void> {
     return this.http.post<void>(this.apiUrl + '/reservation', reservation);
-
-    // //assigning ID to the reservation being added before we push it to the array/local storage
-
-    // reservation.id = Date.now().toString();
-
-    // this.reservations.push(reservation);
-    // // localStorage.setItem("reservations", JSON.stringify(this.reservations));
   }
 
-  deleteReservation(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl + '/reservation/' + id);
-
-    // let index = this.reservations.findIndex(reservation => reservation.id === id);
-    // this.reservations.splice(index, 1);
-    // localStorage.setItem("reservations", JSON.stringify(this.reservations));
+  deleteReservation(
+    id: number | undefined,
+    listingId: number,
+    reason: string
+  ): Observable<void> {
+    return this.http.put<void>(this.apiUrl + '/reservation/' + id + '/delete', {
+      listingId,
+      reason,
+    });
   }
 
   updateReservation(
@@ -74,9 +63,5 @@ export class ReservationService {
       this.apiUrl + '/reservation/' + id,
       updatedReservation
     );
-
-    // let index = this.reservations.findIndex(reservation => reservation.id === id);
-    // this.reservations[index] = updatedReservation;
-    // localStorage.setItem("reservations", JSON.stringify(this.reservations));
   }
 }

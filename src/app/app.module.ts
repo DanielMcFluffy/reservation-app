@@ -30,6 +30,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { Location } from '@angular/common';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { StoreModule } from '@ngrx/store';
+import { checkoutReducer } from './features/store/checkout-reducer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +60,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
     MatDialogModule,
     MatCardModule,
     NgArrayPipesModule,
+    StoreModule.forRoot({ checkout: checkoutReducer }),
 
     provideFirebaseApp(() =>
       initializeApp({

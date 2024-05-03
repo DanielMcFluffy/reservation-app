@@ -12,11 +12,23 @@
     class="dropdown-menu dropdown-menu-enlarged"
     aria-labelledby="navbarScrollingDropdown"
   >
-    <li><a class="dropdown-item" href="#">Login</a></li>
-    <li><a class="dropdown-item" href="#">Sign Up</a></li>
+    <li>
+      <button
+        class="dropdown-item btn-btn-transparent"
+        (click)="token ? onLogout() : onLogin()"
+      >
+        {{ token ? "Logout" : "Login" }}
+      </button>
+    </li>
     <!-- after login -->
-    <li><a class="dropdown-item" href="#">View Reservations</a></li>
+    @if ( token ) {
+    <li>
+      <a class="dropdown-item" [routerLink]="'/list'">View Reservations</a>
+    </li>
     <li><hr class="dropdown-divider" /></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
+    <li>
+      <a class="dropdown-item">{{ username }}</a>
+    </li>
+    }
   </ul>
 </div>

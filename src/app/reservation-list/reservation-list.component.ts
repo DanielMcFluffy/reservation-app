@@ -3,6 +3,7 @@ import { Reservation } from '../shared/models/reservation';
 import { ReservationService } from '../reservation/reservation.service';
 import { AccountsService } from '../shared/accounts.service';
 import { jwtDecode } from 'jwt-decode';
+import { payloadListing } from '../features/store/checkout-actions';
 
 @Component({
   selector: 'app-reservation-list',
@@ -20,47 +21,34 @@ export class ReservationListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    //returns the observable, then subscribe to it
-    //callback function is how we handle the data received
-    // this.reservationService.getReservations().subscribe((reservations) => {
-    //   this.reservations = reservations;
-    //   console.log(reservations)
-    //   console.log(this.accountsService.readToken())
-    // });
-    // console.log(this.accountsService.readAuth())
-    //get token
-    // const token = localStorage.getItem('accessToken');
-
     if (this.token) {
-      // const username = jwtDecode<{username: string}>(this.token).username || jwtDecode<{email: string}>(this.token).email;
       this.reservationService
         .getUserReservation(this.token)
         .subscribe((userReservations: Reservation[]) => {
-          // console.log(typeof this.token);
           this.reservations = userReservations;
           this.isLoading = false;
         });
     }
-    // el {
-
-    // }
   }
 
   ngOnDestroy(): void {}
 
-  deleteReservation(id: number) {
-    this.reservationService.deleteReservation(id).subscribe(() => {
-      console.log('Delete request processed!');
+  deleteReservation(
+    id: number | undefined,
+    data: { listingId: number; reason: string }
+  ) {
+    this.reservationService
+      .deleteReservation(id, data.listingId, data.reason)
+      .subscribe(() => {
+        console.log('Delete request processed!', data.listingId, data.reason);
 
-      if (this.token) {
-        const { username } = jwtDecode<{ username: string }>(this.token);
-
-        this.reservationService
-          .getUserReservation(this.token)
-          .subscribe((userReservations) => {
-            this.reservations = userReservations;
-          });
-      }
-    });
+        if (this.token) {
+          this.reservationService
+            .getUserReservation(this.token)
+            .subscribe((userReservations) => {
+              this.reservations = userReservations;
+            });
+        }
+      });
   }
 }
