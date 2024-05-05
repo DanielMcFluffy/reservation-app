@@ -2,6 +2,7 @@ import { Component, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ReservationService } from '../../reservation/reservation.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-delete-popup',
@@ -10,6 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class DeletePopupComponent {
   constructor(
+    private router: Router,
     private reservationsService: ReservationService,
     public dialogRef: MatDialogRef<DeletePopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: number; listing_id: number }
@@ -33,6 +35,12 @@ export class DeletePopupComponent {
       .subscribe(() => {
         console.log('deleted');
         this.dialogRef.close();
+        // Navigate away, then back (ideally, we call getUserReservation method from reservationService to trigger re-fetch of data)
+        this.router
+          .navigateByUrl('/landing', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate(['/list']);
+          });
       });
   }
 }

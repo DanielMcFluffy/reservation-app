@@ -70,7 +70,16 @@
         ></textarea>
       </div>
       <div class="text-end mt-3">
-        <button class="btn btn-danger">Submit</button>
+        <button
+          [disabled]="
+            !cancelInput.value.cancelReason ||
+            (cancelInput.value.cancelReason === 'Other reasons' &&
+              !cancelInput.value.otherReasonText)
+          "
+          class="btn btn-danger"
+        >
+          Submit
+        </button>
       </div>
     </form>
   </div>
