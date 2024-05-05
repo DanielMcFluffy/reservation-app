@@ -32,7 +32,7 @@ export class ReservationService {
 
   //get reservations based on username provided from token
 
-  getUserReservation(token: string): Observable<Reservation[]> {
+  getUserReservation(token: string | null): Observable<Reservation[]> {
     //endpoint expects a json request object with key 'token'
 
     return this.http.post<Reservation[]>(this.apiUrl + '/reservation/user', {
@@ -46,12 +46,12 @@ export class ReservationService {
 
   deleteReservation(
     id: number | undefined,
-    listingId: number,
-    reason: string
+    listing_id: number,
+    reasoncancel: string
   ): Observable<void> {
     return this.http.put<void>(this.apiUrl + '/reservation/' + id + '/delete', {
-      listingId,
-      reason,
+      listing_id,
+      reasoncancel,
     });
   }
 

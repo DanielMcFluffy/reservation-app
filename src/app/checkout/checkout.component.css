@@ -33,6 +33,11 @@ p.text-center.text-muted {
   margin-left: 5%;
   text-wrap: nowrap;
 }
+@media (min-width: 768px) {
+  .summary {
+    text-wrap: wrap;
+  }
+}
 
 img {
   object-fit: cover;

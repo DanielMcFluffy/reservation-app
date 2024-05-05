@@ -119,7 +119,7 @@ export class ListingDetailComponent implements OnInit {
         reservation: {
           checkindate: checkInDate,
           checkoutdate: checkOutDate,
-          listingId: this.listingId,
+          listing_id: this.listingId,
         },
         listing: {
           id: this.listingId,

@@ -16,7 +16,15 @@ export class SearchBarComponent implements DoCheck {
   disableSearch?: boolean;
 
   ngDoCheck(): void {
-    this.disableSearch = this.location.path().includes('/listing/');
+    if (
+      this.location.path().includes('/listing/') ||
+      this.location.path().includes('/list') ||
+      this.location.path().includes('/edit')
+    ) {
+      this.disableSearch = true;
+    } else {
+      this.disableSearch = false;
+    }
   }
 
   onSearch() {

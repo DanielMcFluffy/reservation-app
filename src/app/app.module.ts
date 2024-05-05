@@ -28,10 +28,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CalendarComponent } from './features/calendar/calendar.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
-import { Location } from '@angular/common';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { StoreModule } from '@ngrx/store';
 import { checkoutReducer } from './features/store/checkout-reducer';
+import { DeletePopupComponent } from './reservation-list/delete-popup/delete-popup.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +46,7 @@ import { checkoutReducer } from './features/store/checkout-reducer';
     ListingDetailComponent,
     CalendarComponent,
     CheckoutComponent,
+    DeletePopupComponent,
   ],
   imports: [
     BrowserModule,

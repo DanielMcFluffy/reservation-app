@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>Reservation Name</th>
-      <th>Location</th>
+      <th>Listing Id</th>
       <th>Email</th>
       <th>Check-In</th>
       <th>Check-Out</th>
@@ -15,19 +15,21 @@
   <tbody>
     <tr *ngFor="let reservation of reservations">
       <td>{{ reservation.guestname }}</td>
+      <td>{{ reservation.listing_id }}</td>
       <td>{{ reservation.guestemail }}</td>
       <td>{{ reservation.checkindate | date }}</td>
       <td>{{ reservation.checkoutdate | date }}</td>
       <td>
         <button
           class="btn btn-danger btn-sm m-2"
-          (click)="
+          (click)="onDelete(reservation)"
+        >
+          <!-- (click)="
             deleteReservation(reservation.id, {
-              listingId: reservation.listingId,
+              listingId: reservation.listing_id,
               reason: 'text'
             })
-          "
-        >
+          " -->
           Delete
         </button>
         <button
