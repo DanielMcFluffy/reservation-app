@@ -64,6 +64,10 @@
         <p class="text-danger mt-2 mb-0 text-center">
           Please login to make a booking
         </p>
+        } @if (errorBookingMessage) {
+        <p class="text-danger mt-2 mb-0 text-center">
+          This listing has already been booked!
+        </p>
         }
         <p class="mt-2 text-muted text-center">
           We will need a reservation name to reserve your room.

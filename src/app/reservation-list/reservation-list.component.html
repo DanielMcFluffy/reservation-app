@@ -24,12 +24,6 @@
           class="btn btn-danger btn-sm m-2"
           (click)="onDelete(reservation)"
         >
-          <!-- (click)="
-            deleteReservation(reservation.id, {
-              listingId: reservation.listing_id,
-              reason: 'text'
-            })
-          " -->
           Delete
         </button>
         <button
@@ -42,12 +36,13 @@
     </tr>
   </tbody>
 </table>
-
-<!-- conditionally render the no reservation phrase using ngIf ; else -->
-<div *ngIf="isLoading">
+@if (isLoading) {
+<div>
   <p>Loading...</p>
 </div>
-
-<div *ngIf="!reservations.length && isLoading === false">
+} @else if (!reservations.length && !isLoading) {
+<div>
   <p>No reservations available</p>
 </div>
+
+}

@@ -58,6 +58,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   errorMessage = false;
   //error message for users not logged in
   errorLoginMessage = false;
+  //error message for booked listings
+  errorBookingMessage = false;
 
   ngOnInit(): void {
     let checkInDate, checkOutDate;
@@ -107,8 +109,19 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           guestemail: this.reservationEmail.value,
           userId: this.userId,
           token: this.token,
+          listing_id: this.listingDetails!.id,
         })
-        .subscribe(() => this.router.navigate(['/list']));
+        .subscribe(
+          () => this.router.navigate(['/list']),
+          (error) => {
+            console.log(error.error.message);
+            if (
+              error.error.message === 'This listing has already been booked.'
+            ) {
+              this.errorBookingMessage = true;
+            }
+          }
+        );
     } else if (this.token && !this.reservationName.value) {
       this.errorMessage = true;
     } else if (!this.token) {
