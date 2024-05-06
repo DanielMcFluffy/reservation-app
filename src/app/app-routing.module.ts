@@ -8,12 +8,10 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { LandingComponent } from './landing/landing.component';
 import { ListingDetailComponent } from './listing-detail/listing-detail.component';
 import { CheckoutComponent } from './checkout/checkout.component';
-import { DeletePopupComponent } from './reservation-list/delete-popup/delete-popup.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
   { path: 'landing', component: LandingComponent },
-  { path: 'delete', component: DeletePopupComponent },
   {
     path: 'listing/:id',
     component: ListingDetailComponent,

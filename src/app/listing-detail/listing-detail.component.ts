@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { addToCart } from '../features/store/checkout-actions';
 import { BookingDates } from '../shared/models/booking-dates';
 import { AppState } from '../features/store/app.state';
+import { ImageModalComponent } from './image-modal/image-modal.component';
 
 @Component({
   selector: 'app-listing-detail',
@@ -23,7 +24,7 @@ export class ListingDetailComponent implements OnInit {
     private store: Store<AppState>
   ) {}
 
-  listing?: Listings;
+  listing!: Listings;
 
   listingId!: number;
 
@@ -46,6 +47,34 @@ export class ListingDetailComponent implements OnInit {
     this.bookingDates = dates;
   }
   /////////////////////////////////////////
+
+  //track route params and pass it in getListing to initialize listing property to be used in view
+  ngOnInit(): void {
+    const routeParams = this.route.snapshot.params['id'];
+
+    this.listingsService.getListing(routeParams).subscribe((listingData) => {
+      const {
+        id,
+        facility_gym,
+        facility_kitchen,
+        facility_laundry,
+        facility_parking,
+        facility_pool,
+        facility_security,
+      } = listingData;
+
+      this.listing = listingData;
+      console.log(this.listing);
+      this.listingId = id;
+
+      this.facility_gym = facility_gym;
+      this.facility_kitchen = facility_kitchen;
+      this.facility_laundry = facility_laundry;
+      this.facility_parking = facility_parking;
+      this.facility_pool = facility_pool;
+      this.facility_security = facility_security;
+    });
+  }
 
   openCalendarDialog() {
     //open a new instance of the calendar component (separate from the one in listing-detail)
@@ -80,31 +109,16 @@ export class ListingDetailComponent implements OnInit {
     });
   }
 
-  //track route params and pass it in getListing to initialize listing property to be used in view
-  ngOnInit(): void {
-    const routeParams = this.route.snapshot.params['id'];
-
-    this.listingsService.getListing(routeParams).subscribe((listingData) => {
-      const {
-        id,
-        facility_gym,
-        facility_kitchen,
-        facility_laundry,
-        facility_parking,
-        facility_pool,
-        facility_security,
-      } = listingData;
-
-      this.listing = listingData;
-      console.log(this.listing);
-      this.listingId = id;
-
-      this.facility_gym = facility_gym;
-      this.facility_kitchen = facility_kitchen;
-      this.facility_laundry = facility_laundry;
-      this.facility_parking = facility_parking;
-      this.facility_pool = facility_pool;
-      this.facility_security = facility_security;
+  //pass information about listing into the image modal component
+  openImageModal(listing: Listings) {
+    this.dialog.open(ImageModalComponent, {
+      width: '50%',
+      height: '60%',
+      data: {
+        image1: listing.image1,
+        image2: listing.image2,
+        image3: listing.image3,
+      },
     });
   }
 

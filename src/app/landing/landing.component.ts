@@ -47,9 +47,12 @@ export class LandingComponent implements OnInit {
 
   filterListings(term: string): void {
     if (term) {
-      this.filteredListings = this.listings.filter((listing) =>
-        listing.title.toLowerCase().includes(term.toLowerCase())
-      );
+      this.filteredListings = this.listings.filter((listing) => {
+        return (
+          listing.title.toLowerCase().includes(term.toLowerCase()) ||
+          listing.description.toLowerCase().includes(term.toLowerCase())
+        );
+      });
     } else {
       //show all listings if search box is empty
       this.filteredListings = this.listings;

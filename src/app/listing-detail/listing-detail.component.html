@@ -7,7 +7,7 @@
       <div class="d-flex justify-content-between align-items-center">
         <div>
           <p class="title">
-            {{ listing?.title }}
+            {{ listing.title }}
           </p>
         </div>
         <div>
@@ -24,24 +24,38 @@
     <div class="col-xs-12 image-col">
       <div class="image-container">
         <div class="listing-image1">
-          <img src="{{ listing?.image1 }}" alt="First image" />
+          <img
+            src="{{ listing.image1 }}"
+            alt="First image"
+            (click)="openImageModal(listing)"
+          />
         </div>
         <div>
-          <img src="{{ listing?.image1 }}" alt="Second image" class="" />
+          <img
+            src="{{ listing.image2 }}"
+            alt="Second image"
+            class=""
+            (click)="openImageModal(listing)"
+          />
         </div>
         <div>
-          <img src="{{ listing?.image1 }}" alt="Third image" class="" />
+          <img
+            src="{{ listing.image3 }}"
+            alt="Third image"
+            class=""
+            (click)="openImageModal(listing)"
+          />
         </div>
       </div>
     </div>
 
     <div class="detail-container">
       <div class="detail-description">
-        <h4>{{ listing?.description }}</h4>
+        <h4>{{ listing.description }}</h4>
         <p class="text-muted">
-          {{ listing?.guests }} guests &#8226; {{ listing?.bedroom }} bedroom
-          &#8226; {{ listing?.beds }} beds &#8226;
-          {{ listing?.bathroom }} bathroom
+          {{ listing.guests }} guests &#8226; {{ listing.bedroom }} bedroom
+          &#8226; {{ listing.beds }} beds &#8226;
+          {{ listing.bathroom }} bathroom
         </p>
         <div class="horizontal1">
           <hr />
@@ -124,11 +138,11 @@
           class="container detail-price-container-mobile border rounded-4 shadow"
         >
           <div class="row mt-3">
-            @if (listing?.price) {
+            @if (listing.price) {
 
             <p class="d-flex justify-content-between">
               <span style="font-size: 26px; font-weight: 550"
-                >RM{{ listing?.price }}
+                >RM{{ listing.price }}
                 <span style="font-size: 1.3rem; font-weight: 400"
                   >{{ " " }} night
                 </span>
@@ -152,7 +166,7 @@
           <hr style="margin-top: 0px" />
 
           <div class="row d-flex justify-content-between subtotal">
-            @if ( listing?.price && bookingDaysTracked !== undefined &&
+            @if ( listing.price && bookingDaysTracked !== undefined &&
             bookingDaysTracked>0 ) {
             <div class="w-auto left">RM{{ listing!.price }}</div>
             <div class="w-auto">
@@ -171,7 +185,7 @@
           <hr />
 
           <div class="row d-flex justify-content-between subtotal">
-            @if ( listing?.price && bookingDaysTracked !== undefined &&
+            @if ( listing.price && bookingDaysTracked !== undefined &&
             bookingDaysTracked>0 ) {
             <div class="fw-bold text-center">
               Total including taxes RM{{
@@ -195,10 +209,10 @@
         <div class="container detail-price-container border rounded-4 shadow">
           <div class="row ms-2">
             <div class="row mt-4">
-              @if (listing?.price) {
+              @if (listing.price) {
               <p>
                 <span style="font-size: 26px; font-weight: 550"
-                  >RM{{ listing?.price }}</span
+                  >RM{{ listing.price }}</span
                 >
                 {{ " " }} night
               </p>
@@ -219,11 +233,11 @@
               </p>
             </div>
             <div class="row days-fees mb-2">
-              @if ( listing?.price && bookingDaysTracked !== undefined &&
+              @if ( listing.price && bookingDaysTracked !== undefined &&
               bookingDaysTracked>0 ) {
               <div class="col-auto mr-auto">
                 <span
-                  >RM{{ listing?.price }} x {{ bookingDaysTracked }} days</span
+                  >RM{{ listing.price }} x {{ bookingDaysTracked }} days</span
                 >
               </div>
               <div class="col-auto">
@@ -239,7 +253,7 @@
             </div>
             <hr />
             <div class="row total-fees mb-4">
-              @if ( listing?.price && bookingDaysTracked !== undefined &&
+              @if ( listing.price && bookingDaysTracked !== undefined &&
               bookingDaysTracked>0 ) {
               <div class="text-center fw-bold">
                 Total including taxes RM{{

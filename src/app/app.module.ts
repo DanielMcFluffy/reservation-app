@@ -32,6 +32,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { StoreModule } from '@ngrx/store';
 import { checkoutReducer } from './features/store/checkout-reducer';
 import { DeletePopupComponent } from './reservation-list/delete-popup/delete-popup.component';
+import { ImageModalComponent } from './listing-detail/image-modal/image-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +48,7 @@ import { DeletePopupComponent } from './reservation-list/delete-popup/delete-pop
     CalendarComponent,
     CheckoutComponent,
     DeletePopupComponent,
+    ImageModalComponent,
   ],
   imports: [
     BrowserModule,
